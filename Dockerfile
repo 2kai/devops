@@ -1,4 +1,4 @@
-FROM debian:11.6-slim
+FROM debian:12.0-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -8,35 +8,36 @@ WORKDIR /opt
 
 # Common packages
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends apt-utils lsb-release curl gnupg2 software-properties-common apt-transport-https ca-certificates locales locales-all git
+    && apt-get install -y --no-install-recommends apt-utils lsb-release curl gnupg2 software-properties-common apt-transport-https ca-certificates locales locales-all git nano
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE 1
 ENV LC_ALL en_GB.UTF-8
 ENV LANG en_GB.UTF-8
 ENV LANGUAGE en_GB.UTF-8
+ENV KUBE_EDITOR=nano
 
 # Terraform
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
-    && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
-    && apt-get update \
-    && apt-get --yes --no-install-recommends install terraform \
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
+    && apt update \
+    && apt --yes --no-install-recommends install terraform \
     && terraform -install-autocomplete
 
 # Google Cloud SDK
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
     && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
     && apt-get update \
     && apt-get --yes --no-install-recommends install google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin
 
 # Docker
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
-    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
+    && add-apt-repository "deb [arch=$(dpkg --print-architecture) ] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
     && apt-get update \
     && apt-get -y --no-install-recommends install docker-ce docker-ce-cli containerd.io
 
 # kubectl
-RUN curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list \
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list \
     && apt-get update \
     && apt-get install --yes --no-install-recommends kubectl
 
