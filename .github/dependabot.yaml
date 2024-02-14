@@ -10,3 +10,11 @@ updates:
       - 2kai
     reviewers:
       - 2kai
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    assignees:
+      - 2kai
+    reviewers:
+      - 2kai
