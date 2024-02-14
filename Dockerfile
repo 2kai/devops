@@ -42,7 +42,7 @@ RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dea
     && apt-get install --yes --no-install-recommends kubectl
 
 # k9s
-RUN curl --location --output k9s_Linux_amd64.tar.gz `curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep "browser_download_url.*k9s_Linux_amd64.tar.gz" | cut -d : -f 2,3 | tr -d \"` \
+RUN curl --location --output k9s_Linux_amd64.tar.gz https://github.com/derailed/k9s/releases/download/v0.31.8/k9s_Linux_amd64.tar.gz \
     && mkdir /tmp/k9s \
     && tar xzf k9s_Linux_amd64.tar.gz -C /tmp/k9s \
     && rm k9s_Linux_amd64.tar.gz \
@@ -54,7 +54,7 @@ RUN git clone https://github.com/ahmetb/kubectx /usr/local/src/kubectx \
     && ln -s /usr/local/src/kubectx/kubens /usr/local/bin/kubens
 
 # sops
-RUN curl --location --output sops_amd64.deb `curl -s https://api.github.com/repos/mozilla/sops/releases/latest | grep "browser_download_url.*amd64.deb" | cut -d : -f 2,3 | tr -d \"` \
+RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.8.1/sops_3.8.1_amd64.deb \
     && apt-get install --yes --no-install-recommends ./sops_amd64.deb \
     && rm sops_amd64.deb
 
