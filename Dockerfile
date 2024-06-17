@@ -42,7 +42,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/kubernetes-apt-keyring.gpg] https:/
     && apt-get install --yes --no-install-recommends kubectl
 
 # k9s
-RUN curl --location --output k9s_Linux_amd64.tar.gz https://github.com/derailed/k9s/releases/download/v0.31.8/k9s_Linux_amd64.tar.gz \
+RUN curl --location --output k9s_Linux_amd64.tar.gz https://github.com/derailed/k9s/releases/download/v0.32.5/k9s_Linux_amd64.tar.gz \
     && mkdir /tmp/k9s \
     && tar xzf k9s_Linux_amd64.tar.gz -C /tmp/k9s \
     && rm k9s_Linux_amd64.tar.gz \
