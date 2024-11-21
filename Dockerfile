@@ -1,4 +1,4 @@
-FROM debian:12.5-slim
+FROM debian:12.8-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -36,13 +36,13 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
     && apt-get -y --no-install-recommends install docker-ce docker-ce-cli containerd.io
 
 # kubectl
-RUN echo "deb [signed-by=/usr/share/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list \
-    && curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg \
+RUN echo "deb [signed-by=/usr/share/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list \
+    && curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg \
     && apt-get update \
     && apt-get install --yes --no-install-recommends kubectl
 
 # k9s
-RUN curl --location --output k9s_Linux_amd64.tar.gz https://github.com/derailed/k9s/releases/download/v0.32.5/k9s_Linux_amd64.tar.gz \
+RUN curl --location --output k9s_Linux_amd64.tar.gz https://github.com/derailed/k9s/releases/download/v0.32.7/k9s_Linux_amd64.tar.gz \
     && mkdir /tmp/k9s \
     && tar xzf k9s_Linux_amd64.tar.gz -C /tmp/k9s \
     && rm k9s_Linux_amd64.tar.gz \
