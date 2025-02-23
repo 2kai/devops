@@ -10,10 +10,10 @@ WORKDIR /opt
 RUN apt-get update \
     && apt-get install -y --no-install-recommends apt-utils lsb-release curl gnupg2 software-properties-common apt-transport-https ca-certificates locales locales-all git nano
 
-ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE 1
-ENV LC_ALL en_GB.UTF-8
-ENV LANG en_GB.UTF-8
-ENV LANGUAGE en_GB.UTF-8
+ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+ENV LC_ALL=en_GB.UTF-8
+ENV LANG=en_GB.UTF-8
+ENV LANGUAGE=en_GB.UTF-8
 ENV KUBE_EDITOR=nano
 
 # Terraform
