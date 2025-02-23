@@ -1,4 +1,4 @@
-FROM debian:12.8-slim
+FROM debian:12.9-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -36,17 +36,15 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
     && apt-get -y --no-install-recommends install docker-ce docker-ce-cli containerd.io
 
 # kubectl
-RUN echo "deb [signed-by=/usr/share/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list \
-    && curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | gpg --dearmor -o /usr/share/keyrings/kubernetes-apt-keyring.gpg \
-    && apt-get update \
-    && apt-get install --yes --no-install-recommends kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
+    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" \
+    && echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check \
+    && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # k9s
-RUN curl --location --output k9s_Linux_amd64.tar.gz https://github.com/derailed/k9s/releases/download/v0.32.7/k9s_Linux_amd64.tar.gz \
-    && mkdir /tmp/k9s \
-    && tar xzf k9s_Linux_amd64.tar.gz -C /tmp/k9s \
-    && rm k9s_Linux_amd64.tar.gz \
-    && mv /tmp/k9s/k9s /usr/local/bin
+RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.40.5/k9s_linux_amd64.deb \
+    && apt-get install --yes --no-install-recommends ./k9s_linux_amd64.deb \
+    && rm k9s_linux_amd64.deb
 
 # kubectx
 RUN git clone https://github.com/ahmetb/kubectx /usr/local/src/kubectx \
@@ -54,7 +52,7 @@ RUN git clone https://github.com/ahmetb/kubectx /usr/local/src/kubectx \
     && ln -s /usr/local/src/kubectx/kubens /usr/local/bin/kubens
 
 # sops
-RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.8.1/sops_3.8.1_amd64.deb \
+RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.9.4/sops_3.9.4_amd64.deb \
     && apt-get install --yes --no-install-recommends ./sops_amd64.deb \
     && rm sops_amd64.deb
 
