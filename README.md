@@ -1,6 +1,6 @@
 ###### What is included:
 
-* Debian 12.9
+* Debian 12.10
 * Terraform v1.10.5
 * Google Cloud SDK 511.0.0
 * Docker version 28.0.0
