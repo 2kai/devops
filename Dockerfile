@@ -42,7 +42,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # k9s
-RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.50.4/k9s_linux_amd64.deb \
+RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.50.9/k9s_linux_amd64.deb \
     && apt-get install --yes --no-install-recommends ./k9s_linux_amd64.deb \
     && rm k9s_linux_amd64.deb
 
