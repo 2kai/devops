@@ -52,7 +52,7 @@ RUN git clone https://github.com/ahmetb/kubectx /usr/local/src/kubectx \
     && ln -s /usr/local/src/kubectx/kubens /usr/local/bin/kubens
 
 # sops
-RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.9.4/sops_3.9.4_amd64.deb \
+RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.10.2/sops_3.10.2_amd64.deb \
     && apt-get install --yes --no-install-recommends ./sops_amd64.deb \
     && rm sops_amd64.deb
 
