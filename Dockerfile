@@ -1,4 +1,4 @@
-FROM debian:12.10-slim
+FROM debian:13.1-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
