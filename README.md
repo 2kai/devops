@@ -1,13 +1,13 @@
 ###### What is included:
 
-* Debian 12.10
-* Terraform v1.12.2
-* Google Cloud SDK 534.0.0
-* Docker version 28.3.3
-* kubectl Client Version: v1.33.3
-* k9s v0.50.9
+* Debian 13.10
+* Terraform v1.13.5
+* Google Cloud SDK 546.0.0
+* Docker version 28.5.1
+* kubectl Client Version: v1.34.1
+* k9s v0.50.16
 * kubectx
 * kubens
-* sops v3.10.2
-* Helm v3.18.4
+* sops v3.11.0
+* Helm v3.19.0
 * helm-secrets plugin 4.7.0-dev
