@@ -1,4 +1,4 @@
-FROM debian:13.1-slim
+FROM debian:13.3-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -40,7 +40,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # k9s
-RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.50.16/k9s_linux_amd64.deb \
+RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_linux_amd64.deb \
     && apt --yes --no-install-recommends install ./k9s_linux_amd64.deb \
     && rm k9s_linux_amd64.deb
 
