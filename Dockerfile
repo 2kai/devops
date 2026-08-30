@@ -1,4 +1,4 @@
-FROM debian:13.3-slim
+FROM debian:13.6-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -25,7 +25,7 @@ RUN curl https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/ke
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
     && apt update \
-    && apt --yes --no-install-recommends install google-cloud-sdk google-cloud-sdk-gke-gcloud-auth-plugin
+    && apt --yes --no-install-recommends install google-cloud-cli google-cloud-cli-gke-gcloud-auth-plugin
 
 # Docker
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker.gpg \
@@ -40,7 +40,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # k9s
-RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_linux_amd64.deb \
+RUN curl --location --output k9s_linux_amd64.deb https://github.com/derailed/k9s/releases/download/v0.51.0/k9s_linux_amd64.deb \
     && apt --yes --no-install-recommends install ./k9s_linux_amd64.deb \
     && rm k9s_linux_amd64.deb
 
@@ -50,7 +50,7 @@ RUN git clone https://github.com/ahmetb/kubectx /usr/local/src/kubectx \
     && ln -s /usr/local/src/kubectx/kubens /usr/local/bin/kubens
 
 # sops
-RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.11.0/sops_3.11.0_amd64.deb \
+RUN curl --location --output sops_amd64.deb https://github.com/getsops/sops/releases/download/v3.13.3/sops_3.13.3_amd64.deb \
     && apt --yes --no-install-recommends install ./sops_amd64.deb \
     && rm sops_amd64.deb
 
@@ -61,4 +61,4 @@ RUN curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gp
     && apt --yes --no-install-recommends install helm
 
 # helm-secrets plugin
-RUN helm plugin install https://github.com/jkroepke/helm-secrets
+RUN helm plugin install https://github.com/jkroepke/helm-secrets --verify=false
